@@ -8,8 +8,8 @@ router.get('/', function(req, res){
 })
 
 /* GET home page. */
-router.post('/', passport.authenticate('local-login'), function(req, res) {
-  res.render('signup', { title: 'Express' });
+router.post('/', passport.authenticate('local-signup'), function(req, res) {
+  res.redirect('index');
 });
 
 module.exports = router;

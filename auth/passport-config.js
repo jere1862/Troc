@@ -31,7 +31,6 @@ module.exports = function(passport) {
                     };
                     dabatase.createUser(user, function(err, rows) {
                         newUser.id = rows.insertId;
-
                         return done(null, newUser);
                     });
                 }
