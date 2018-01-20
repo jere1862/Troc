@@ -1,0 +1,15 @@
+{
+  "name": "troc",
+  "version": "1.0.0",
+  "description": "Goods sharing application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jere1862/Troc.git"
+  },
+  "author": "",
+  "license": "ISC"
+}
