@@ -18,6 +18,7 @@ CREATE TABLE offered_item(
 	id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
     name VARCHAR(100) NOT NULL,
+    deleted BOOL DEFAULT FALSE,
     
     PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES user(id)
@@ -27,6 +28,7 @@ CREATE TABLE wanted_item(
 	id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
     name VARCHAR(100) NOT NULL,
+    deleted BOOL DEFAULT FALSE,
     
     PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES user(id)
@@ -36,30 +38,38 @@ CREATE TABLE offer(
 	id INT NOT NULL AUTO_INCREMENT,
     from_user_id INT NOT NULL,
     to_user_id INT NOT NULL,
-    offered_item_id INT NOT NULL,
-    wanted_item_id INT NOT NULL,
+    from_user_offered_item_id INT NOT NULL,
+    from_user_wanted_item_id INT NOT NULL,
+    to_user_offered_item_id INT NOT NULL,
+    to_user_wanted_item_id INT NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     
     PRIMARY KEY (id),
 	FOREIGN KEY (from_user_id) REFERENCES user(id),
     FOREIGN KEY (to_user_id) REFERENCES user(id),
-    FOREIGN KEY (offered_item_id) REFERENCES offered_item(id),
-    FOREIGN KEY (wanted_item_id) REFERENCES wanted_item(id)
+    FOREIGN KEY (from_user_offered_item_id) REFERENCES offered_item(id),
+    FOREIGN KEY (from_user_wanted_item_id) REFERENCES wanted_item(id),
+    FOREIGN KEY (to_user_offered_item_id) REFERENCES offered_item(id),
+    FOREIGN KEY (to_user_wanted_item_id) REFERENCES wanted_item(id)
 );
 
 CREATE TABLE swap(
 	id INT NOT NULL AUTO_INCREMENT,
     from_user_id INT NOT NULL,
     to_user_id INT NOT NULL,
-    offered_item_id INT NOT NULL,
-    wanted_item_id INT NOT NULL,
+    from_user_offered_item_id INT NOT NULL,
+    from_user_wanted_item_id INT NOT NULL,
+    to_user_offered_item_id INT NOT NULL,
+    to_user_wanted_item_id INT NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     
     PRIMARY KEY (id),
 	FOREIGN KEY (from_user_id) REFERENCES user(id),
     FOREIGN KEY (to_user_id) REFERENCES user(id),
-    FOREIGN KEY (offered_item_id) REFERENCES offered_item(id),
-    FOREIGN KEY (wanted_item_id) REFERENCES wanted_item(id)
+    FOREIGN KEY (from_user_offered_item_id) REFERENCES offered_item(id),
+    FOREIGN KEY (from_user_wanted_item_id) REFERENCES wanted_item(id),
+    FOREIGN KEY (to_user_offered_item_id) REFERENCES offered_item(id),
+    FOREIGN KEY (to_user_wanted_item_id) REFERENCES wanted_item(id)
 );
