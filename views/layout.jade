@@ -1,7 +1,39 @@
 doctype html
 html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
+    head
+        meta(name='viewport', content='initial-scale=1.0')
+        meta(charset='utf-8')
+        link(rel='stylesheet', type='text/css', href='/stylesheets/map.css')
+        link(rel='stylesheet', type='text/css', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
+        script(type='text/javascript', src='/scripts/map.js')
+        link(rel='stylesheet', href='/stylesheets/style.css')
+    body
+        nav.navbar.navbar-inverse.navbar-fixed-top
+            .container
+                .navbar-header
+                    button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-nav-demo', aria-expanded='false')
+                        span.sr-only Toggle navigation
+                        span.icon-bar
+                        span.icon-bar
+                        span.icon-bar
+                    a.navbar-brand(href='#')
+                        span.glyphicon.glyphicon-picture(area-hidden='true')
+                        |  TROC
+                #bs-nav-demo.collapse.navbar-collapse
+                    ul.nav.navbar-nav
+                        li
+                            a(href='#') About
+                        li
+                            a(href='#') Contact
+                    ul.nav.navbar-nav.navbar-right
+                        li
+                            a(href='#') Sign Up
+                        li
+                            a(href='#') Login
+        .container
+            .jumbotron
+                h1
+                    i.glyphicon.glyphicon-picture
+                    |  TROC
+                p One man's trash is another man's treasure ...
     block content
