@@ -1,0 +1,24 @@
+h1{
+
+    font: 30px "Lucida Grande", Helvetica, Arial, sans-serif;
+    text-align: center;
+}
+
+#profile {
+    /*text-align: center;*/
+    width: 25%;
+    margin: 0 auto;
+
+}
+
+#offer_message {
+    width: 400px;
+    height: 200px;
+}
+p {
+    /*color: #00B7FF;*/
+}
+
+a {
+    color: #00B7FF;
+}
