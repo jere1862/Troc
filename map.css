@@ -1,0 +1,36 @@
+/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+#map {
+  height: 100%;
+  margin-left: 15%;
+  margin-right: 15%;
+  margin-bottom: 30%;
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+  height: 100%;
+  padding-top: 2.5%;
+ /* margin: 0px;
+  padding: 0px;*/
+}
+
+/*body {
+  padding-top: 70px;
+}
+*/
+.jumbotron {
+  color: #2c3e50;
+  background: #ecf0f1;
+}
+
+.navbar-inverse {
+  background: #2c3e50;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+  color: white;
+}
+
+.navbar-inverse .navbar-brand {
+  color: white;
+}
