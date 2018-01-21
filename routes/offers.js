@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var database = require('../db/db');
 
+
 router.get('/', function (req, res, next) {
     if (req.session.userId) {
         database.getOffersByToUserId(req.session.userId, function (err, result) {

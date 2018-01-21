@@ -27,8 +27,8 @@ $.get('/matches', function(res){
         ${convertListToHtml(match.fromOfferedItemsMatches)}
         <h4>Wants:</h4>
         ${convertListToHtml(match.fromWantedItemsMatches)}
-        <b>Email:</b> <br>
-        <b>Phone:</b> 
+        <b>Email:</b> ${match.toUserEmail} <br>
+        <b>Phone:</b> ${match.toUserPhone}
         </div>
         <button type="button" class="btn btn-success" onclick="makeOffer()";"style="text-align:center; margin: 3px">Offer</button>
         </div>
