@@ -3,10 +3,20 @@ var mysql = require('mysql');
 var api = {
     createConnection: function() {
         return mysql.createConnection({
-            host: "localhost",
-            user: "root",
-            password: "12345678",
-            database: "swap_database"
+            host: "mysql3.gear.host",
+            user: "hackatown2018",
+            password: "Vc07~5q0zi2!",
+            database: "hackatown2018"
+        });
+    },
+
+    findAllUsers: function(callback) {
+        var connection = this.createConnection();
+        connection.connect(function(err) {
+            if(err) return callback(err);
+            connection.query("SELECT * FROM user", [], function (err, result) {
+                callback(err, result)
+            });
         });
     },
     
