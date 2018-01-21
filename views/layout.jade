@@ -1,11 +1,13 @@
 doctype html
 html
     head
+        title Index
         meta(name='viewport', content='initial-scale=1.0')
         meta(charset='utf-8')
-        link(rel='stylesheet', type='text/css', href='/stylesheets/map.css')
         link(rel='stylesheet', type='text/css', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
+        link(rel='stylesheet', type='text/css', href='/stylesheets/map.css')
         script(type='text/javascript', src='/scripts/map.js')
+        link(rel='stylesheet', type='text/css', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
         link(rel='stylesheet', href='/stylesheets/style.css')
     body
         nav.navbar.navbar-inverse.navbar-fixed-top
@@ -17,14 +19,19 @@ html
                         span.icon-bar
                         span.icon-bar
                     a.navbar-brand(href='#')
-                        span.glyphicon.glyphicon-picture(area-hidden='true')
-                        |  TROC
+                        span.fa.fa-handshake-o(area-hidden='true')
+                        |  
+                        strong  TROC
                 #bs-nav-demo.collapse.navbar-collapse
                     ul.nav.navbar-nav
                         li
-                            a(href='#') About
+                            a(href='#') Index
                         li
-                            a(href='#') Contact
+                            a(href='#') My Profile
+                        li
+                            a(href='#') Ongoing Exchanges
+                        li
+                            a(href='#') Pending Exchanges
                     ul.nav.navbar-nav.navbar-right
                         li
                             a(href='#') Sign Up
@@ -33,7 +40,9 @@ html
         .container
             .jumbotron
                 h1
-                    i.glyphicon.glyphicon-picture
-                    |  TROC
-                p One man's trash is another man's treasure ...
+                    i.fa.fa-gift
+                    |  
+                    strong  Exchange It!
+                p 
+                    i One man's trash is another man's treasure ...
     block content

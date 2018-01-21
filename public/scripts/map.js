@@ -1,5 +1,3 @@
-w3.includeHTML();
-
 var marker;
 
 function initMap() {
