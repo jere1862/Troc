@@ -2,24 +2,24 @@ extends layout
 
 block content
     link(rel='stylesheet', type='text/css', href='/stylesheets/offers.css')
+    script(src='/scripts/offer_library.js')
     #trade
         h1 Trades
             for trade in  trades
-                h2 Trade
-                h3 #{trade.offerer_name}
+                h2 Trade offered by #{trade.offerer_name}
                 p
                     strong Offered Items:
-                    for item in trade.offeredItems
-                        li= item.name
+                    for item in trade.offered_items
+                        li= item
                     else
                         li This user is not offering anything in exchange.
                     p
                     strong Items in exchange:
-                    for item in  trade.wantedItems
+                    for item in  trade.against_items
                         li= item
                     else
                         li The user doesn't want anything in exchange.
-                button Accept
-                button Deny
+                button.btn.btn-primary.btn-md(onclick='accept_trade(#{trade.id})')#accept_button Accept
+                button.btn.btn-primary.btn-md(onclick='decline_trade(#{trade.id})')#accept_button Deny
             else
                 li You have no pending trades.
