@@ -30,9 +30,11 @@ $.get('/matches', function(res){
         <b>Email:</b> ${match.toUserEmail} <br>
         <b>Phone:</b> ${match.toUserPhone}
         </div>
-        <button type="button" class="btn btn-success" onclick="makeOffer()";"style="text-align:center; margin: 3px">Offer</button>
+        <button type="button" class="btn btn-success" onclick="makeOffer" style="text-align:center; margin: 3px">Offer</button>
         </div>
         `;
+
+        window.user.tmp=match;
         
         function convertListToHtml(list){
           list = list.map(item => item.from_item_name);
@@ -117,9 +119,18 @@ $.get('/map', function(data){
 });
 
 */
-window.makeOffer = function(){
-  BootstrapDialog.alert("a");
-  console.log(context);
+window.makeOffer = function(wantedList, offeredList){
+  
+}
+
+function itemListToRadioButtons(list){
+  console.log(list.map(toRadioButton));
+}
+
+function toRadioButton(item){
+  return `<div class="radio">
+    <label><input type="radio" name="optradio">${item}</label>
+  </div>`
 }
 
 function getLatLongFromAddress(address, callback){
