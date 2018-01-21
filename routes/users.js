@@ -12,8 +12,6 @@ var mockUserData = {
 /* GET users listing. */
 router.get('/:userId', function (req, res, next) {
     // res.render('profile', req.params);
-    console.log(mockUserData)
-    console.log(req.params)
     res.render('profile', mockUserData)
 });
 

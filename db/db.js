@@ -55,7 +55,11 @@ var api = {
         connection.connect(function(err) {
             if(err) return callback(err);
             connection.query("INSERT INTO user(name, email, phone, address, password) VALUES(?, ?, ?, ?, ?)", [name, email, phone, address, password], function (err, result) {
-                callback(err, result)
+                if(err) return callback(err);
+                connection.query("SELECT LAST_INSERT_ID() as id", function(err, result) {
+                    if(err) return callback(err);
+                    callback(err, result[0])
+                });
             });
         });
     },

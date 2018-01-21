@@ -61,7 +61,6 @@ module.exports = function(passport) {
                 if(rows[0].password !== password){
                     return done(null, false, {message: 'Oops! Wrong password'});
                 }
-
                 return done(null, rows[0]);
             });
         }

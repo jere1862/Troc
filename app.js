@@ -5,6 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
+var flash = require('connect-flash');
+var session = require('express-session');
+var FileStore = require('session-file-store')(session);
 require('./auth/passport-config')(passport);
 
 var index = require('./routes/index');
@@ -23,14 +26,18 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(require('express-session')({
+app.use(cookieParser('hehe'));
+app.use(session({
   secret: 'hehe',
-  resave: false,
-  saveUninitialized: false
+  resave: true,
+  secure: false,
+  store: new FileStore,
+  saveUninitialized: true,
+  duration: 30 * 60 * 1000
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);

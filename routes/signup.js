@@ -8,7 +8,8 @@ router.get('/', function(req, res){
 })
 
 
-router.post('/', passport.authenticate('local-signup', {successRedirect: '../', failureRedirect: '../'}), function(req, res) {
+router.post('/', passport.authenticate('local-signup', {failureFlash: true}), function(req, res) {
+  req.session.user = req.user.id;
   res.redirect('../');
 });
 
