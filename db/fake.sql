@@ -13,8 +13,8 @@ INSERT INTO wanted_item(user_id, name) VALUES(2, 'Livre - Elon Musk');
 
 INSERT INTO wanted_item(user_id, name) VALUES(4, 'Ordinateur');
 
-INSERT INTO wanted_item(user_id, name, deleted) VALUES(2, 'Ipad', TRUE);
-INSERT INTO wanted_item(user_id, name, deleted) VALUES(3, 'Pinceau', TRUE);
+INSERT INTO wanted_item(user_id, name, visible) VALUES(2, 'Ipad', FALSE);
+INSERT INTO wanted_item(user_id, name, visible) VALUES(3, 'Pinceau', FALSE);
 
 
 INSERT INTO offered_item(user_id, name) VALUES(1, 'Livre - Elon Musk');
@@ -26,9 +26,5 @@ INSERT INTO offered_item(user_id, name) VALUES(2, 'Marteau');
 INSERT INTO offered_item(user_id, name) VALUES(4, 'Perceuse');
 INSERT INTO offered_item(user_id, name) VALUES(4, 'Marteau');
 
-INSERT INTO offered_item(user_id, name, deleted) VALUES(2, 'Pinceau', TRUE);
-INSERT INTO offered_item(user_id, name, deleted) VALUES(3, 'Ipad', TRUE);
-
-INSERT INTO offer(from_user_id, to_user_id, from_user_offered_item_id, from_user_wanted_item_id, to_user_offered_item_id, to_user_wanted_item_id, start_date, end_date) VALUES(1, 2, 1, 1, 3, 3, '2018-02-01', '2008-02-08');
-
-INSERT INTO swap(from_user_id, to_user_id, from_user_offered_item_id, from_user_wanted_item_id, to_user_offered_item_id, to_user_wanted_item_id, start_date, end_date) VALUES(2, 3, 5, 5, 6, 6, '2018-01-15', '2008-01-22');
+INSERT INTO offered_item(user_id, name, visible) VALUES(2, 'Pinceau', FALSE);
+INSERT INTO offered_item(user_id, name, visible) VALUES(3, 'Ipad', FALSE);

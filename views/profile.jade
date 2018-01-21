@@ -1,0 +1,36 @@
+doctype html
+
+html
+    head
+        title= title
+        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u' crossorigin='anonymous')
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='/stylesheets/profile.css')
+        script(src='/scripts/profile.js')
+    body
+        #profile
+            h1 #{name}
+            p
+                strong Email:
+                | #{email}
+            p
+                strong Phone:
+                | #{phone}
+            p
+                strong Address:
+                | #{address}
+            p
+                strong Offered Items:
+                for item in offeredItems
+                    li= item
+                else
+                    li This user doesn't have any offered items yet
+            p
+                strong Wanted Items:
+                for item in wantedItems
+                    li= item
+                else
+                    li This user doesn't have any offered items yet
+            button.btn.btn-primary.btn-md(onclick='show_box()')#offer_button Send an offer
+            .form-group#form_box(style="display:none")
+                textarea.form-control#offer_message
