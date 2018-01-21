@@ -18,7 +18,7 @@ $.get('/matches', function(res){
   res.matches.forEach(match => {
       getLatLongFromAddress(match.toUserAddress, function(location){
         var location = new google.maps.LatLng(location.lat, location.long);
-        var contentString = 
+        var contentString =
         `<div class="content">
         <div class="siteNotice">
         <h1 id="firstHeading" class="firstHeading">${match.toUserName}</h1>
@@ -30,31 +30,32 @@ $.get('/matches', function(res){
         <b>Email:</b> ${match.toUserEmail} <br>
         <b>Phone:</b> ${match.toUserPhone}
         </div>
-        <button type="button" class="btn btn-success" onclick="makeOffer()";"style="text-align:center; margin: 3px">Offer</button>
+        <button type="button" class="btn btn-success" onclick="makeOffer('` + encodeURI(JSON.stringify(match)) + `')"style="text-align:center; margin: 3px">Offer</button>
         </div>
         `;
-        
+
+          {/*<button type="button" class="btn btn-success" onclick="makeOffer(\"`+JSON.stringify(match)+`\")";"style="text-align:center; margin: 3px">Offer</button>*/}
         function convertListToHtml(list){
           list = list.map(item => item.from_item_name);
           return list.map(toList).slice(0,4).join('');
         }
-        
+
         function toList(item){
           return `<li>${item}</li>`;
         }
-        
+
       var infowindow = new google.maps.InfoWindow({
         content: contentString
       });
-      
-      
+
+
       marker = new google.maps.Marker({
         position: location,
         title: "test",
         animation: google.maps.Animation.DROP,
         visible:true
       });
-      
+
       marker.setMap(map);
       marker.addListener('click', toggleBounce);
       marker.addListener('click', function() {
@@ -64,64 +65,67 @@ $.get('/matches', function(res){
       }) //end foreach
 });
 
-/*
-$.get('/map', function(data){
-  if(!window.userId){
-    return;
-  }else{
-    user = data.forEach(user =>{
-      getLatLongFromAddress("410 Avenue Édouard-Charles, Outremont, QC H2V 2N4, Canada", function(location){
-        var location = new google.maps.LatLng(location.lat, location.long);
-        var contentString = 
-        `<div class="content">
-        <div class="siteNotice">
-        <h1 id="firstHeading" class="firstHeading">${user.name}</h1>
-        <div class="bodyContent">
-        <p>Items to trade: <br>
-        ${convertListToHtml([])}
-        <b>Email:</b> ${user.email}<br>
-        <b>Phone:</b> ${user.phone}
-        </div>
-        <button type="button" class="btn btn-success" onclick="makeOffer()";"style="text-align:center; margin: 3px">Offer</button>
-        </div>
-        `;
-        
-        function convertListToHtml(list){
-          return list.map(toList).slice(0,4).join('');
-        }
-        
-        function toList(item){
-          return `<li>${item}</li>`;
-        }
-        
-      var infowindow = new google.maps.InfoWindow({
-        content: contentString
-      });
-      
-      
-      marker = new google.maps.Marker({
-        position: location,
-        title: "test",
-        animation: google.maps.Animation.DROP,
-        visible:true
-      });
-      
-      marker.setMap(map);
-      marker.addListener('click', toggleBounce);
-      marker.addListener('click', function() {
-        infowindow.open(map, marker);
-      });
-    });
-      }) //end foreach
-  }
-});
+window.makeOffer = function(matchJsonStr){
+  match = JSON.parse(decodeURI(matchJsonStr));
+  offeredItemList = convertListToHtml(match.fromOfferedItemsMatches, "offered");
+  wantedItemList = convertListToHtml(match.fromWantedItemsMatches, "wanted");
+    BootstrapDialog.show({
+        message: function(dialogRef){
+            var $form = $('<form></form>');
+            var $titleDrop = $(` 
+            <div class="form-group container">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <h3>Offered items</h3>
+                        ${offeredItemList}
+                    </div>
+                    <div class="col-xs-3">
+                        <h3>Wanted items</h3>
+                        ${wantedItemList}
+                    </div>
+                </div>
+                
+            </div>
+            `);
+            dialogRef.setData('fieldTitleDrop', $form);
+            $form.append($titleDrop);
+            return $form;
+        }        ,
+        buttons: [
+            {
+                label: 'Confirm',
+                action: function(dialogRef){
+                    var unindexed_array = dialogRef.getData('fieldTitleDrop').serializeArray();
+                    console.log(unindexed_array);
+                    $('input[name=offered]:checked');
+                    $('input[name=wanted]:checked');
+                    from_user_id = 1;
+                    to_user_id = 2;
+                    from_user_offered_item_id = 2;
+                    from_user_wanted_item_id = 2;
+                    to_user_offered_item_id = 2;
+                    to_user_wanted_item_id = 2;
 
-*/
-window.makeOffer = function(){
-  BootstrapDialog.alert("a");
-  console.log(context);
+                    dialogRef.close();
+                }
+            },
+            {
+                label: 'Cancel',
+                action: function(dialogRef) {
+                    dialogRef.close();
+                }
+            }]
+    });
+
+};
+
+function convertListToHtml(list, name){
+    truc = "";
+    for (var i = 0; i < list.length; i++) {
+        truc += `<p><input type="radio" name="${name}" fromId="${list[i].from_item_id}" toId="${list[i].to_item_id}">${list[i].from_item_name}</input></p>`;
+    }
+    return truc;
 }
-
 function getLatLongFromAddress(address, callback){
   $.post(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${key}`, function(response){
     var lat=response.results[0].geometry.location.lat;
@@ -136,7 +140,7 @@ if (navigator.geolocation) {
               lat: position.coords.latitude,
               lng: position.coords.longitude
             };
-            
+
             infoWindow.setPosition(pos);
             infoWindow.setContent('Current Location');
             infoWindow.open(map);
@@ -148,39 +152,6 @@ if (navigator.geolocation) {
           // Browser doesn't support Geolocation
           handleLocationError(false, infoWindow, map.getCenter());
         }
-
-/*marker = new google.maps.Marker({
-  position: mtl,
-  title: "test",
-  animation: google.maps.Animation.DROP,
-  visible:true
-});
-
-marker.setMap(map);
-marker.addListener('click', toggleBounce);
-*/
-//ON-CLICK INFOWINDOW
-/*var contentString =` <div id="content">
-            <div id="siteNotice">
-            </div>
-            <h1 id="firstHeading" class="firstHeading">${user.name}</h1>
-            <div id="bodyContent">
-            <p>Items to trade: <br> 
-            <ul>
-            <li><b>Drill</b></li>
-            <li><b>Book</b></li>
-            </ul>
-            <b>Email:</b>${user.email}<br>
-            <b>Phone:</b>${user.phone}
-            </div>
-            </div>`;*/
-/*var infowindow = new google.maps.InfoWindow({
-          content: contentString
-        });
-marker.addListener('click', function() {
-          infowindow.open(map, marker);
-        });*/
-
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
