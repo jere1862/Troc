@@ -1,6 +1,12 @@
 document.onload = req();
 
 function req(){
+    $.get('/login', function(data){
+        if(data.userId){
+            removeButtons();
+        }
+    });
+    /*
    fetch('/login', {credentials: "include"}).then(data => {
        data.json().then(user => {
            if(user.userId){
@@ -8,6 +14,7 @@ function req(){
            }
        })
    }).catch(err => console.error(err));
+   */
 }
 
 function removeButtons(){

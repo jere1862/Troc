@@ -4,9 +4,9 @@ block content
     link(rel='stylesheet', type='text/css', href='/stylesheets/offers.css')
     script(src='/scripts/offers.js')
     #trade
-        h1 Offers
+        h1 Trades
             for trade in  trades
-                h2 Offer
+                h2 Trade
                 h3 #{trade.from_user_name}
                 p
                     strong Offered Item:
@@ -18,7 +18,5 @@ block content
                     strong Dates:
                         li #{trade.start_date}
                         li #{trade.end_date}
-                button.btn.btn-primary.btn-md(onclick='on_accept_offer(#{value=trade.id})') Accept
-                button.btn.btn-primary.btn-md(onclick='on_deny_offer(#{value=trade.id})') Deny
             else
-                li You have no offers.
+                li You have no trades.

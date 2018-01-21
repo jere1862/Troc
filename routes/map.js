@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var database = require('../db/db');
 
-
 router.get('/', function(require	, res, next) {
 	database.findAllUsers(function(err, userResult) {
 		if (err) {

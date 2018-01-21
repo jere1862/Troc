@@ -374,6 +374,98 @@ var api = {
                 callback(err, result)
             })
         });
+    },
+
+    getMatchsByFromUserIdAndToUserId: function(fromUserId, toUserId, callback) {
+        var self = this;
+        var connection = this.createConnection();
+        self.findUserById(fromUserId, function(err, fromUser) {
+            if (err) return callback(err);
+
+            self.findUserById(toUserId, function (err, toUser) {
+                if (err) return callback(err);
+                self.findVisibleOfferedItemsByUserId(fromUserId, function (err, fromOfferedItems) {
+                    if (err) return callback(err);
+
+                    self.findVisibleWantedItemsByUserId(fromUserId, function (err, fromWantedItems) {
+                        if (err) return callback(err);
+
+                        self.findVisibleOfferedItemsByUserId(toUserId, function (err, toOfferedItems) {
+                            if (err) return callback(err);
+
+                            self.findVisibleWantedItemsByUserId(toUserId, function (err, toWantedItems) {
+                                if (err) return callback(err);
+
+                                var fromOfferedItemsMatches = [];
+                                var fromWantedItemsMatches = [];
+
+                                for (var i = 0; i < fromOfferedItems.length; i++) {
+                                    for (var j = 0; j < toWantedItems.length; j++) {
+                                        if (fromOfferedItems[i].name === toWantedItems[j].name) {
+                                            fromOfferedItemsMatches.push({
+                                                from_item_id: fromOfferedItems[i].id,
+                                                from_item_name: fromOfferedItems[i].name,
+                                                to_item_id: toWantedItems[j].id,
+                                                to_item_name: toWantedItems[j].name
+                                            })
+                                        }
+                                    }
+                                }
+
+                                for (var i = 0; i < fromWantedItems.length; i++) {
+                                    for (var j = 0; j < toOfferedItems.length; j++) {
+                                        if (fromWantedItems[i].name === toOfferedItems[j].name) {
+                                            fromWantedItemsMatches.push({
+                                                from_item_id: fromWantedItems[i].id,
+                                                from_item_name: fromWantedItems[i].name,
+                                                to_item_id: toOfferedItems[j].id,
+                                                to_item_name: toOfferedItems[j].name
+                                            })
+                                        }
+                                    }
+                                }
+
+                                callback(err, {
+                                    fromUserId: fromUserId,
+                                    fromUserName: fromUser[0].name,
+                                    fromUserAddress: fromUser[0].address,
+                                    toUserId: toUserId,
+                                    toUserName: toUser[0].name,
+                                    toUserAddress: toUser[0].address,
+                                    fromOfferedItemsMatches: fromOfferedItemsMatches,
+                                    fromWantedItemsMatches: fromWantedItemsMatches
+                                })
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    },
+
+    getMatchUsersByUserId: function(userId, callback) {
+        var self = this;
+        var connection = this.createConnection();
+        connection.connect(function(err) {
+            if(err) return callback(err);
+            connection.query("SELECT * FROM user", function (err, users) {
+                var matchsCount = 0;
+                var matchs = [];
+
+                for(var i = 0; i < users.length; i++) {
+                    if (users[i].id !== userId) {
+                        console.log(self)
+                        self.getMatchsByFromUserIdAndToUserId(userId, users[i].id, function(err, match) {
+                            matchsCount++;
+                            if(err) return callback(err);
+                            if (match.fromOfferedItemsMatches.length > 0 && match.fromWantedItemsMatches.length > 0)
+                                matchs.push(match);
+                            if(matchsCount === users.length - 1) callback(err, matchs);
+                        });
+                    }
+                }
+            });
+        });
     }
 };
 

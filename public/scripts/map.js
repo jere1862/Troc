@@ -14,54 +14,109 @@ infoWindow = new google.maps.InfoWindow;
 
 var user;
 
-$.get('/map', function(data){
- user = data.forEach(user =>{
-    getLatLongFromAddress("410 Avenue Édouard-Charles, Outremont, QC H2V 2N4, Canada", function(location){
-      var location = new google.maps.LatLng(location.lat, location.long);
-      var contentString = 
-      `<div class="content">
-      <div class="siteNotice">
-      <h1 id="firstHeading" class="firstHeading">${user.name}</h1>
-      <div class="bodyContent">
-      <p>Items to trade: <br>
-      ${convertListToHtml([])}
-      <b>Email:</b> ${user.email}<br>
-      <b>Phone:</b> ${user.phone}
-      </div>
-      <button type="button" class="btn btn-success" onclick="makeOffer()";"style="text-align:center; margin: 3px">Offer</button>
-      </div>
-      `;
+$.get('/matches', function(res){
+  res.matches.forEach(match => {
+      getLatLongFromAddress(match.toUserAddress, function(location){
+        var location = new google.maps.LatLng(location.lat, location.long);
+        var contentString = 
+        `<div class="content">
+        <div class="siteNotice">
+        <h1 id="firstHeading" class="firstHeading">${match.toUserName}</h1>
+        <div class="bodyContent">
+        <h4>Offers:</h4>
+        ${convertListToHtml(match.fromOfferedItemsMatches)}
+        <h4>Wants:</h4>
+        ${convertListToHtml(match.fromWantedItemsMatches)}
+        <b>Email:</b> <br>
+        <b>Phone:</b> 
+        </div>
+        <button type="button" class="btn btn-success" onclick="makeOffer()";"style="text-align:center; margin: 3px">Offer</button>
+        </div>
+        `;
+        
+        function convertListToHtml(list){
+          list = list.map(item => item.from_item_name);
+          return list.map(toList).slice(0,4).join('');
+        }
+        
+        function toList(item){
+          return `<li>${item}</li>`;
+        }
+        
+      var infowindow = new google.maps.InfoWindow({
+        content: contentString
+      });
       
-      function convertListToHtml(list){
-        return list.map(toList).slice(0,4).join('');
-      }
       
-      function toList(item){
-        return `<li>${item}</li>`;
-      }
+      marker = new google.maps.Marker({
+        position: location,
+        title: "test",
+        animation: google.maps.Animation.DROP,
+        visible:true
+      });
       
-    var infowindow = new google.maps.InfoWindow({
-      content: contentString
+      marker.setMap(map);
+      marker.addListener('click', toggleBounce);
+      marker.addListener('click', function() {
+        infowindow.open(map, marker);
+      });
     });
-    
-    
-    marker = new google.maps.Marker({
-      position: location,
-      title: "test",
-      animation: google.maps.Animation.DROP,
-      visible:true
-    });
-    
-    marker.setMap(map);
-    marker.addListener('click', toggleBounce);
-    marker.addListener('click', function() {
-      infowindow.open(map, marker);
-    });
-  });
-    }) //end foreach
-
+      }) //end foreach
 });
 
+/*
+$.get('/map', function(data){
+  if(!window.userId){
+    return;
+  }else{
+    user = data.forEach(user =>{
+      getLatLongFromAddress("410 Avenue Édouard-Charles, Outremont, QC H2V 2N4, Canada", function(location){
+        var location = new google.maps.LatLng(location.lat, location.long);
+        var contentString = 
+        `<div class="content">
+        <div class="siteNotice">
+        <h1 id="firstHeading" class="firstHeading">${user.name}</h1>
+        <div class="bodyContent">
+        <p>Items to trade: <br>
+        ${convertListToHtml([])}
+        <b>Email:</b> ${user.email}<br>
+        <b>Phone:</b> ${user.phone}
+        </div>
+        <button type="button" class="btn btn-success" onclick="makeOffer()";"style="text-align:center; margin: 3px">Offer</button>
+        </div>
+        `;
+        
+        function convertListToHtml(list){
+          return list.map(toList).slice(0,4).join('');
+        }
+        
+        function toList(item){
+          return `<li>${item}</li>`;
+        }
+        
+      var infowindow = new google.maps.InfoWindow({
+        content: contentString
+      });
+      
+      
+      marker = new google.maps.Marker({
+        position: location,
+        title: "test",
+        animation: google.maps.Animation.DROP,
+        visible:true
+      });
+      
+      marker.setMap(map);
+      marker.addListener('click', toggleBounce);
+      marker.addListener('click', function() {
+        infowindow.open(map, marker);
+      });
+    });
+      }) //end foreach
+  }
+});
+
+*/
 window.makeOffer = function(){
   BootstrapDialog.alert("a");
   console.log(context);
