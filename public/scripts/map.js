@@ -30,7 +30,7 @@ $.get('/matches', function(res){
         <b>Email:</b> ${match.toUserEmail} <br>
         <b>Phone:</b> ${match.toUserPhone}
         </div>
-        <button type="button" class="btn btn-success" onclick="makeOffer('` + encodeURI(JSON.stringify(match)) + `')"style="text-align:center; margin: 3px">Offer</button>
+        <button type="button" class="btn btn-success" onclick="makeOffer(` + match.fromUserId + `, ` + match.toUserId + `, '` + encodeURI(JSON.stringify(match)) + `')"style="text-align:center; margin: 3px">Offer</button>
         </div>
         `;
 
@@ -65,7 +65,7 @@ $.get('/matches', function(res){
       }) //end foreach
 });
 
-window.makeOffer = function(matchJsonStr){
+window.makeOffer = function(fromUserId, toUserId, matchJsonStr){
   match = JSON.parse(decodeURI(matchJsonStr));
   offeredItemList = convertListToHtml(match.fromOfferedItemsMatches, "offered");
   wantedItemList = convertListToHtml(match.fromWantedItemsMatches, "wanted");
@@ -97,14 +97,36 @@ window.makeOffer = function(matchJsonStr){
                 action: function(dialogRef){
                     var unindexed_array = dialogRef.getData('fieldTitleDrop').serializeArray();
                     console.log(unindexed_array);
-                    $('input[name=offered]:checked');
-                    $('input[name=wanted]:checked');
-                    from_user_id = 1;
-                    to_user_id = 2;
-                    from_user_offered_item_id = 2;
-                    from_user_wanted_item_id = 2;
-                    to_user_offered_item_id = 2;
-                    to_user_wanted_item_id = 2;
+                    from_user_offered_item_id = parseInt($('input[name=offered]:checked').attr("fromId"));
+                    to_user_offered_item_id = parseInt($('input[name=offered]:checked').attr("toId"));
+
+                    from_user_wanted_item_id = parseInt($('input[name=wanted]:checked').attr("fromId"));
+                    to_user_wanted_item_id = parseInt($('input[name=wanted]:checked').attr("toId"));
+
+                    from_user_id = fromUserId;
+                    to_user_id = toUserId;
+
+                    data = {
+                        from_user_id: from_user_id,
+                        to_user_id: to_user_id,
+                        from_user_offered_item_id: from_user_offered_item_id,
+                        to_user_offered_item_id: to_user_offered_item_id,
+                        from_user_wanted_item_id: from_user_wanted_item_id,
+                        to_user_wanted_item_id: to_user_wanted_item_id
+                    };
+
+                    fetch('/offers/create', {
+                        method: 'POST', // or 'PUT'
+                        body: JSON.stringify(data),
+                        headers: new Headers({
+                            'Content-Type': 'application/json'
+                        }),
+                        credentials: "include"
+                    })
+                    .then(res => {
+                        location.reload();
+                    })
+                    .catch((err, res) => console.log("error"));
 
                     dialogRef.close();
                 }

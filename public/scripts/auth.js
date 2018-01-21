@@ -113,6 +113,7 @@ function login(){
                           BootstrapDialog.alert('Wrong credentials.')
                       }else{
                         removeButtons();
+                        location.reload();
                       }
                   })
                   .catch((err, res) => console.log("error"));
