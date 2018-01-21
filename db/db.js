@@ -151,8 +151,15 @@ var api = {
             connection.query("SELECT offer.id, \
                                      from_user_id, \
                                      from_user.name as from_user_name, \
+                                     from_user.phone as from_user_phone, \
+                                     from_user.email as from_user_email, \
+                                     from_user.address as from_user_address, \
+                                     \
                                      to_user_id, \
                                      to_user.name as to_user_name, \
+                                     to_user.phone as to_user_phone, \
+                                     to_user.email as to_user_email, \
+                                     to_user.address as to_user_address, \
 \
                                      from_user_offered_item_id, \
                                      from_offered_item.name as from_user_offered_item_name, \
@@ -341,7 +348,16 @@ var api = {
 
             connection.query("SELECT swap.id, \
                                      from_user_id, \
+                                     from_user.name as from_user_name, \
+                                     from_user.phone as from_user_phone, \
+                                     from_user.email as from_user_email, \
+                                     from_user.address as from_user_address,\
+                                     \
                                      to_user_id, \
+                                     to_user.name as to_user_name, \
+                                     to_user.phone as to_user_phone,\
+                                     to_user.email as to_user_email, \
+                                     to_user.address as to_user_address, \
 \
                                      from_user_offered_item_id, \
                                      from_offered_item.name as from_user_offered_item_name, \
@@ -356,6 +372,8 @@ var api = {
                                      start_date, \
                                      end_date \
                               FROM swap \
+                              INNER JOIN user as from_user ON from_user.id = from_user_id \
+                              INNER JOIN user as to_user ON to_user.id = to_user_id \
                               INNER JOIN offered_item as from_offered_item ON from_offered_item.id = from_user_offered_item_id \
                               INNER JOIN wanted_item as from_wanted_item ON from_wanted_item.id = from_user_wanted_item_id \
                               INNER JOIN offered_item as to_offered_item ON to_offered_item.id = to_user_offered_item_id \
@@ -418,10 +436,14 @@ var api = {
                                 callback(err, {
                                     fromUserId: fromUserId,
                                     fromUserName: fromUser[0].name,
+                                    fromUserEmail: fromUser[0].email,
                                     fromUserAddress: fromUser[0].address,
+                                    fromUserPhone: fromUser[0].phone,
                                     toUserId: toUserId,
                                     toUserName: toUser[0].name,
+                                    toUserEmail: toUser[0].email,
                                     toUserAddress: toUser[0].address,
+                                    toUserPhone: toUser[0].phone,
                                     fromOfferedItemsMatches: fromOfferedItemsMatches,
                                     fromWantedItemsMatches: fromWantedItemsMatches
                                 })
@@ -459,3 +481,7 @@ var api = {
 };
 
 module.exports = api;
+
+api.getSwapsByUserId(3, function(err, result) {
+    console.log(err)
+});

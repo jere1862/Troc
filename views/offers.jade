@@ -18,6 +18,11 @@ block content
                     strong Dates:
                         li #{trade.start_date}
                         li #{trade.end_date}
+                    p
+                    strong Contact:
+                        li #{trade.from_user_phone}
+                        li #{trade.from_user_email}
+                        li #{trade.from_user_address}
                 button.btn.btn-primary.btn-md(onclick='on_accept_offer(#{value=trade.id})') Accept
                 button.btn.btn-primary.btn-md(onclick='on_deny_offer(#{value=trade.id})') Deny
             else
