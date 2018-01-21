@@ -9,13 +9,13 @@ block content
                 h3 #{trade.offerer_name}
                 p
                     strong Offered Items:
-                    for item in trade.offered_items
-                        li= item
+                    for item in trade.offeredItems
+                        li= item.name
                     else
                         li This user is not offering anything in exchange.
                     p
                     strong Items in exchange:
-                    for item in  trade.against_items
+                    for item in  trade.wantedItems
                         li= item
                     else
                         li The user doesn't want anything in exchange.

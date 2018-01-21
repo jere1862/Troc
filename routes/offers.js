@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var database = require('../db/db');
+var util = require('util');
 
 var mockTradeData = {trades: [{
     offered_name: "john",
@@ -16,6 +18,7 @@ var mockTradeData = {trades: [{
 var emptyTradeMock = {trades: []}
 
 router.get('/', function (req, res, next) {
+
     res.render('offers', mockTradeData)
 });
 
