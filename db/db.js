@@ -150,7 +150,9 @@ var api = {
             if(err) return callback(err);
             connection.query("SELECT offer.id, \
                                      from_user_id, \
+                                     from_user.name as from_user_name, \
                                      to_user_id, \
+                                     to_user.name as to_user_name, \
 \
                                      from_user_offered_item_id, \
                                      from_offered_item.name as from_user_offered_item_name, \
@@ -165,6 +167,8 @@ var api = {
                                      start_date, \
                                      end_date \
                               FROM offer \
+                              INNER JOIN user as from_user ON from_user.id = from_user_id \
+                              INNER JOIN user as to_user ON to_user.id = to_user_id \
                               INNER JOIN offered_item as from_offered_item ON from_offered_item.id = from_user_offered_item_id \
                               INNER JOIN wanted_item as from_wanted_item ON from_wanted_item.id = from_user_wanted_item_id \
                               INNER JOIN offered_item as to_offered_item ON to_offered_item.id = to_user_offered_item_id \
@@ -236,7 +240,7 @@ var api = {
         });
     },
 
-    refuseOffer: function(offerId, callback) {
+    denyOffer: function(offerId, callback) {
         var self = this;
         var connection = this.createConnection();
         connection.connect(function(err) {
