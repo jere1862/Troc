@@ -9,13 +9,11 @@ var mockUserData = {
     offeredItems: ["Lord of the Rings: The twin towers", "Harry Potter: THE FIRST ONE"],
     wantedItems: ["A song of ice and fire: tome one", "A drill"]
 };
+
+
 /* GET users listing. */
 router.get('/:userId', function (req, res, next) {
-    // res.render('profile', req.params);
-    console.log(mockUserData)
-    console.log(req.params)
     res.render('profile', mockUserData)
 });
-
 
 module.exports = router;
