@@ -7,7 +7,7 @@ var mtl = new google.maps.LatLng(45.5017, -73.5673);
 
 map = new google.maps.Map(document.getElementById('map'), {
   center: mtl,
-  zoom: 10
+  zoom: 12
 });
 infoWindow = new google.maps.InfoWindow;
 
