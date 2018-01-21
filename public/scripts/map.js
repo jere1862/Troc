@@ -3,6 +3,7 @@ var marker;
 function initMap() {
 
 var map, infoWindow;
+var key = "AIzaSyAp89M4-auUW8dWIoYAKDNjrA0dlKXUc_k";
 var mtl = new google.maps.LatLng(45.5017, -73.5673);
 
 map = new google.maps.Map(document.getElementById('map'), {
@@ -15,51 +16,64 @@ var user;
 
 $.get('/map', function(data){
  user = data.forEach(user =>{
-    console.log(user)
-    var contentString
-    var contentString = 
+    getLatLongFromAddress("410 Avenue Édouard-Charles, Outremont, QC H2V 2N4, Canada", function(location){
+      var location = new google.maps.LatLng(location.lat, location.long);
+      var contentString = 
       `<div class="content">
-       <div class="siteNotice">
-         <h1 id="firstHeading" class="firstHeading">${user.name}</h1>
-         <div class="bodyContent">
-         <p>Items to trade: <br>
-         ${convertListToHtml([])}
-         <b>Email:</b> ${user.email}<br>
-         <b>Phone:</b> ${user.phone}
-       </div>
-       <button type="button" class="btn btn-success" style="text-align:center; margin: 3px">Offer</button>
+      <div class="siteNotice">
+      <h1 id="firstHeading" class="firstHeading">${user.name}</h1>
+      <div class="bodyContent">
+      <p>Items to trade: <br>
+      ${convertListToHtml([])}
+      <b>Email:</b> ${user.email}<br>
+      <b>Phone:</b> ${user.phone}
+      </div>
+      <button type="button" class="btn btn-success" onclick="makeOffer()";"style="text-align:center; margin: 3px">Offer</button>
       </div>
       `;
-
-function convertListToHtml(list){
- return list.map(toList).slice(0,4).join('');
-}
-
-function toList(item){
- return `<li>${item}</li>`;
-}
-
-  var infowindow = new google.maps.InfoWindow({
-    content: contentString
+      
+      function convertListToHtml(list){
+        return list.map(toList).slice(0,4).join('');
+      }
+      
+      function toList(item){
+        return `<li>${item}</li>`;
+      }
+      
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+    
+    
+    marker = new google.maps.Marker({
+      position: location,
+      title: "test",
+      animation: google.maps.Animation.DROP,
+      visible:true
+    });
+    
+    marker.setMap(map);
+    marker.addListener('click', toggleBounce);
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
   });
-
-
-  marker = new google.maps.Marker({
-  position: mtl,
-  title: "test",
-  animation: google.maps.Animation.DROP,
-  visible:true
-  });
-
-  marker.setMap(map);
-  marker.addListener('click', toggleBounce);
-  marker.addListener('click', function() {
-        infowindow.open(map, marker);
-      });
-  }) //end foreach
+    }) //end foreach
 
 });
 
+window.makeOffer = function(){
+  BootstrapDialog.alert("a");
+  console.log(context);
+}
+
+function getLatLongFromAddress(address, callback){
+  $.post(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${key}`, function(response){
+    var lat=response.results[0].geometry.location.lat;
+    var long=response.results[0].geometry.location.lng;
+    callback({lat:lat, long:long})
+  });
+}
 
 if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
