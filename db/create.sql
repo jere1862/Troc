@@ -18,7 +18,7 @@ CREATE TABLE offered_item(
 	id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
     name VARCHAR(100) NOT NULL,
-    deleted BOOL DEFAULT FALSE,
+    visible BOOL DEFAULT TRUE,
     
     PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES user(id)
@@ -28,7 +28,7 @@ CREATE TABLE wanted_item(
 	id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
     name VARCHAR(100) NOT NULL,
-    deleted BOOL DEFAULT FALSE,
+    visible BOOL DEFAULT TRUE,
     
     PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES user(id)
