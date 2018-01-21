@@ -1,4 +1,18 @@
-document.onload = fetch('/login').then(res => console.log(res)).catch(err => console.error(err));
+document.onload = req();
+
+function req(){
+   fetch('/login', {credentials: "include"}).then(data => {
+       data.json().then(user => {
+           if(user.userId){
+              removeButtons();
+           }
+       })
+   }).catch(err => console.error(err));
+}
+
+function removeButtons(){
+    $("#auth-buttons").remove();
+}
 
 function signup(){
     BootstrapDialog.show({
@@ -31,15 +45,16 @@ function signup(){
                 $.map(unindexed_array, function(n, i){
                     indexed_array[n['name']] = n['value'];
                 });
-                
+
                 fetch('/signup', {
                     method: 'POST', // or 'PUT'
                     body: JSON.stringify(indexed_array), 
                     headers: new Headers({
                       'Content-Type': 'application/json'
-                    })
+                    }),
+                    credentials: "include"
                   });
-
+                    
                 dialogRef.close();
             }
             },
@@ -83,10 +98,17 @@ function login(){
                     body: JSON.stringify(indexed_array), 
                     headers: new Headers({
                       'Content-Type': 'application/json'
-                    })
+                    }),
+                    credentials: "include"
                   })
-                  .then((err, res) => console.log(err, res))
-                  .catch(err => console.error("Login failed"));
+                  .then(res => {
+                      if(res.status == 400 || res.status == 401){
+                          BootstrapDialog.alert('Wrong credentials.')
+                      }else{
+                        removeButtons();
+                      }
+                  })
+                  .catch((err, res) => console.log("error"));
 
                 dialogRef.close();
             }

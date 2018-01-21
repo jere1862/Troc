@@ -61,6 +61,8 @@ module.exports = function(passport) {
                 if(rows[0].password !== password){
                     return done(null, false, {message: 'Oops! Wrong password'});
                 }
+                console.log(`Id=${rows[0].id}`);
+                req.session.userId = rows[0].id
                 return done(null, rows[0]);
             });
         }

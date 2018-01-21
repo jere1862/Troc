@@ -26,15 +26,14 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser('hehe'));
-app.use(session({
-  secret: 'hehe',
-  resave: true,
-  secure: false,
-  store: new FileStore,
-  saveUninitialized: true,
-  duration: 30 * 60 * 1000
-}));
+app.use(cookieParser());
+app.use(session({ secret: 'keyboard cat',
+resave: false,
+store: new FileStore,
+saveUninitialized: false ,
+cookie: { maxAge: 3600000,secure: false, httpOnly: true }
+})
+);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
