@@ -4,7 +4,7 @@
   height: 100%;
   margin-left: 10%;
   margin-right: 10%;
-  margin-bottom: 20%;
+  margin-bottom: 10%;
 }
 /* Optional: Makes the sample page fill the window. */
 html, body {
@@ -18,8 +18,9 @@ html, body {
   padding-top: 70px;
 }
 */
+
 .jumbotron {
-  color: #2c3e50;
+  color: #000000;
   background: #ecf0f1;
   padding: 10px;
 }
@@ -34,4 +35,8 @@ html, body {
 
 .navbar-inverse .navbar-brand {
   color: white;
+}
+
+.fa {
+  color: #6E8B3D;
 }
