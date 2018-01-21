@@ -1,0 +1,25 @@
+extends layout
+
+block content
+    link(rel='stylesheet', type='text/css', href='/stylesheets/offers.css')
+    #trade
+        h1 Trades
+            for trade in  trades
+                h2 Trade
+                h3 #{trade.offerer_name}
+                p
+                    strong Offered Items:
+                    for item in trade.offeredItems
+                        li= item.name
+                    else
+                        li This user is not offering anything in exchange.
+                    p
+                    strong Items in exchange:
+                    for item in  trade.wantedItems
+                        li= item
+                    else
+                        li The user doesn't want anything in exchange.
+                button Accept
+                button Deny
+            else
+                li You have no pending trades.
