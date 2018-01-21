@@ -1,5 +1,5 @@
 var LocalStrategy = require('passport-local').Strategy;
-var database = require('../db/database');
+var database = require('../db/db');
 
 module.exports = function(passport) {
 
@@ -8,7 +8,7 @@ module.exports = function(passport) {
     });
 
     passport.deserializeUser(function(id, done){
-        database.findUserById(id, function(err, rows){
+        database.findUserAndPasswordById(id, function(err, rows){
             done(null, rows[0]);
         });
     });
@@ -20,17 +20,27 @@ module.exports = function(passport) {
             passReqToCallback: true
         },
         function(req, email, password, done) {
-            database.findUserWithEmail(email, function(err, rows){
-                if(err) return done(err);
-                if(rows.length){
+            console.log("test");
+            database.findUserAndPasswordByEmail(email, function(err, rows){
+                console.log(err);
+                if(err && err.length) return done(err);
+                if(rows && rows.length){
+                    console.log("test")
                     return done(null, false, {message: 'That email is already in use.'});
                 }else{
-                    var newUser = {
-                        email: email,
-                        password: password
-                    };
-                    dabatase.createUser(user, function(err, rows) {
-                        newUser.id = rows.insertId;
+                    console.log("Creating user " + req.body.name);
+                    database.insertUser(req.body.name, email, req.body.phone, req.body.address, password, function(err, result) {
+                        if(err && err.length) return done(err);
+                        console.log(result)
+                        var user = {
+                            id: result.id,
+                            name: req.body.name,
+                            email: email,
+                            phone: req.body.phone,
+                            address: req.body.address,
+                            password: password
+                        };
+
                         return done(null, newUser);
                     });
                 }
@@ -45,8 +55,8 @@ module.exports = function(passport) {
             passReqToCallback: true
         },
         function(req, email, password, done){
-            database.findUserWithEmail(email, function(err, rows){
-                if(err) return done(err);
+            database.findUserAndPasswordByEmail(email, function(err, rows){
+                if(err && err.length) return done(err);
                 if(!rows.length){
                     return done(null, false, {message: 'No user found'});
                 }

@@ -163,9 +163,4 @@ var api = {
 
 };
 
-api.insertUser('a name', 'a@a.com', '418-111-1111', '100, Montreal', 'password', function(result) {
-    console.log("Result: " + JSON.stringify(result));
-});
-
-
 module.exports = api;
