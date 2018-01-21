@@ -18,7 +18,7 @@ block content
                     strong Dates:
                         li #{trade.start_date}
                         li #{trade.end_date}
-                button(value=trade.id, onclick='on_accept_offer()') Accept
-                button(value=trade.id, onclick='on_deny_offer()') Deny
+                button.btn.btn-primary.btn-md(onclick='on_accept_offer(#{value=trade.id})') Accept
+                button.btn.btn-primary.btn-md(onclick='on_deny_offer(#{value=trade.id})') Deny
             else
                 li You have no pending trades.

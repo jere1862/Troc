@@ -1,13 +1,8 @@
-doctype html
+extends layout
 
-html
-    head
-        title= title
-        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u' crossorigin='anonymous')
-        link(rel='stylesheet', href='/stylesheets/style.css')
+block content
         link(rel='stylesheet', href='/stylesheets/profile.css')
         script(src='/scripts/profile.js')
-    body
         #profile
             h1 #{user.name}
             p
@@ -25,12 +20,20 @@ html
                     li= item.name
                 else
                     li This user doesn't have any offered items yet
+                p
+                form(method="post")
+                     input#offered_item_add(name="item_offered_name")
+                     button Add offered item
             p
                 strong Wanted Items:
                 for item in wantedItems
                     li= item.name
                 else
                     li This user doesn't have any offered items yet
+                p
+                form(method="post")
+                    input#wanted_item_add(name="item_wanted_name")
+                    button Add wanted item
             button.btn.btn-primary.btn-md(onclick='show_box()')#offer_button Send an offer
             .form-group#form_box(style="display:none")
                 textarea.form-control#offer_message
