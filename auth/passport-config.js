@@ -20,18 +20,15 @@ module.exports = function(passport) {
             passReqToCallback: true
         },
         function(req, email, password, done) {
-            console.log("test");
             database.findUserAndPasswordByEmail(email, function(err, rows){
-                console.log(err);
                 if(err && err.length) return done(err);
                 if(rows && rows.length){
-                    console.log("test")
+                    console.log("User already exists");
                     return done(null, false, {message: 'That email is already in use.'});
                 }else{
                     console.log("Creating user " + req.body.name);
                     database.insertUser(req.body.name, email, req.body.phone, req.body.address, password, function(err, result) {
                         if(err && err.length) return done(err);
-                        console.log(result)
                         var user = {
                             id: result.id,
                             name: req.body.name,
@@ -41,7 +38,7 @@ module.exports = function(passport) {
                             password: password
                         };
 
-                        return done(null, newUser);
+                        return done(null, user);
                     });
                 }
             })

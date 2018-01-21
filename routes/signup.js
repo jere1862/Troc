@@ -7,9 +7,9 @@ router.get('/', function(req, res){
     res.render('signup', {user: req.user});
 })
 
-/* GET home page. */
-router.post('/', passport.authenticate('local-signup'), function(req, res) {
-  res.redirect('index')
+
+router.post('/', passport.authenticate('local-signup', {successRedirect: '../', failureRedirect: '../'}), function(req, res) {
+  res.redirect('../');
 });
 
 module.exports = router;

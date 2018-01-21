@@ -8,9 +8,9 @@ router.get('/', function(req, res){
 })
 
 /* GET home page. */
-router.post('/', passport.authenticate('local-login'), function(req, res) {
+router.post('/', passport.authenticate('local-login', {failureRedirect: '../', failureFlash: true}), function(req, res) {
   req.session.userId = req.user.id;
-  res.redirect('index');
+  res.redirect('../');
 });
 
 module.exports = router;
