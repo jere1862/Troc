@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var database = require('../db/db');
-var util = require('util');
 
 
 router.get('/', function (req, res, next) {
