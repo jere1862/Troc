@@ -44,6 +44,15 @@ function getAndRenderUserInfo(id, res) {
     });
 }
 
+/* GET users listing. */
+router.get('/current', function (req, res, next) {
+    if (req.session.userId) {
+        getAndRenderUserInfo(req.session.userId, res)
+    } else {
+        res.redirect('../index')
+    }
+});
+
 
 /* GET users listing. */
 router.get('/:userId', function (req, res, next) {

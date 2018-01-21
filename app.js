@@ -44,6 +44,7 @@ app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/index', index);
 app.use('/users', users);
 app.use('/offers', offers);
 app.use('/login', login);
